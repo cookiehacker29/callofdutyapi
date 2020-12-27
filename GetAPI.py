@@ -13,6 +13,9 @@ Class allowing to get the data of API of call of duty
 
 """
 class GetAPI:
+    """
+        Constructor
+    """
     def __init__(self) -> None:
         self.device_id      = str(hex(random.getrandbits(128)).lstrip("0x"))
         self.url_login      = "https://profile.callofduty.com/cod/mapp/login"
@@ -20,6 +23,9 @@ class GetAPI:
         self.apibase        = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
         self.config         = json.loads(open("config.json","r").read())
 
+    """
+    Fonction allowing to register any devices to get the access token
+    """
     def registerDevice(self):
         mydata_device = {
             "deviceId" : self.device_id
@@ -29,6 +35,9 @@ class GetAPI:
 
         return device
     
+    """
+    Login fonction, to get the access to the API and get the identities
+    """
     def login(self):
 
         device = self.registerDevice()
@@ -54,6 +63,9 @@ class GetAPI:
 
         else: sys.exit("Device error : "+device.status_code)
 
+    """
+    Fonction to access to the identities
+    """
     def accessToIdentities(self):
         login = self.login()
         if login.status_code == 200: 
@@ -68,9 +80,9 @@ class GetAPI:
                 sys.exit(-1)
         else : sys.exit("Login error : " + login.status_code)
 
-
-    
-
+    """
+    Fonction to access to the stats of user
+    """
     def accessToStats(self):
         access = self.accessToIdentities()
         ident = access[0]
@@ -102,11 +114,14 @@ class GetAPI:
                 sys.exit(-1)
         else : sys.exit("Login error : " + login.status_code)
 
+    """
+    Fonction to get any data and save it on the database
+    """
     def run(self):
         api_data = self.accessToStats()
 
         if api_data.status_code == 200:
-            print("\033[1;32m[OK]\033[0m API connexion success")
+            print("\033[1;32m[OK]\033[0m API connexion success....")
             data_json = json.loads(api_data.text)
             return str(data_json["data"]["summary"]["all"]["kdRatio"])
 

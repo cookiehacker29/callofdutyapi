@@ -3,6 +3,14 @@ import sys
 import random
 import json
 
+"""
+=================
+GetAPI class
+=================
+
+Class allowing to get the data of API of call of duty
+
+"""
 class GetAPI:
     def __init__(self) -> None:
         self.device_id      = str(hex(random.getrandbits(128)).lstrip("0x"))
@@ -46,7 +54,7 @@ class GetAPI:
         else: sys.exit("Device error : "+device.status_code)
 
 
-    def accessToAPI(self):
+    def accessToStats(self):
         login = self.login()
 
         if login.status_code == 200: 
@@ -62,7 +70,7 @@ class GetAPI:
         else : sys.exit("Login error : " + login.status_code)
 
     def run(self):
-        api_data = self.accessToAPI()
+        api_data = self.accessToStats()
 
         if api_data.status_code == 200:
             print("\033[1;32m[OK]\033[0m API connexion success")

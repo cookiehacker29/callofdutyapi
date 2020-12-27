@@ -2,6 +2,7 @@ from requests import *
 import sys
 import random
 import json
+import urllib
 
 """
 =================
@@ -16,7 +17,7 @@ class GetAPI:
         self.device_id      = str(hex(random.getrandbits(128)).lstrip("0x"))
         self.url_login      = "https://profile.callofduty.com/cod/mapp/login"
         self.url_device     = "https://profile.callofduty.com/cod/mapp/registerDevice"
-        self.url_api        = "https://my.callofduty.com/api/papi-client/crm/cod/v2/title/mw/platform/battle/gamer/CookieHacker%232929/matches/mp/start/0/end/0/details"
+        self.apibase        = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
         self.config         = json.loads(open("config.json","r").read())
 
     def registerDevice(self):
@@ -53,15 +54,47 @@ class GetAPI:
 
         else: sys.exit("Device error : "+device.status_code)
 
-
-    def accessToStats(self):
+    def accessToIdentities(self):
         login = self.login()
-
         if login.status_code == 200: 
             if json.loads(login.text)["success"]:
                 print("\033[1;32m[OK]\033[0m Login success....")
 
-                api_data = post(url=self.url_api, cookies=login.cookies)
+                ident = post(url=self.apibase+"identities/", cookies=login.cookies)
+
+                return (ident,login)
+            else :
+                print("\033[1;31m[ERR]\033[0m Login not valid, check your credential") 
+                sys.exit(-1)
+        else : sys.exit("Login error : " + login.status_code)
+
+
+    
+
+    def accessToStats(self):
+        access = self.accessToIdentities()
+        ident = access[0]
+        login = access[1]
+
+        if ident.status_code == 200: 
+            ident_data = json.loads(ident.text)
+            if ident_data["status"] == "success":
+                print("\033[1;32m[OK]\033[0m get Identities success....")
+
+                data = ident_data["data"]["titleIdentities"][0]
+
+                api_data = post(
+                    url=
+                        self.apibase+
+                        "title/"
+                        + data["title"] +
+                        "/platform/"
+                        + data["platform"] +
+                        "/gamer/"
+                        + urllib.parse.quote(data["username"]) +
+                        "/matches/"
+                        + data["activityType"] + 
+                        "/start/0/end/0/details", cookies=login.cookies)
 
                 return api_data
             else :

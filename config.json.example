@@ -1,0 +1,13 @@
+{
+    "credential" : {
+        "username" : "geekyready@gmail.com",
+        "password" : "xxxxx"
+    },
+
+    "database" :  {
+        "databasename" : "cod",
+        "host" : "127.0.0.1",
+        "port" : 3306,
+        "password" : "xxxxx"
+    }
+}

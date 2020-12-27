@@ -1,3 +1,5 @@
+from Database import Database
+
 from requests import *
 import sys
 import random
@@ -22,6 +24,7 @@ class GetAPI:
         self.url_device     = "https://profile.callofduty.com/cod/mapp/registerDevice"
         self.apibase        = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
         self.config         = json.loads(open("config.json","r").read())
+        self.mysql          = Database()
 
     """
     Fonction allowing to register any devices to get the access token
@@ -123,5 +126,6 @@ class GetAPI:
         if api_data.status_code == 200:
             print("\033[1;32m[OK]\033[0m API connexion success....")
             data_json = json.loads(api_data.text)
+            self.mysql.insertRatio(data_json["data"]["summary"]["all"]["kdRatio"])
             return str(data_json["data"]["summary"]["all"]["kdRatio"])
 

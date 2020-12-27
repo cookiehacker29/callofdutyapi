@@ -1,3 +1,4 @@
+import requests
 from Database import Database
 
 from requests import *
@@ -19,12 +20,13 @@ class GetAPI:
         Constructor
     """
     def __init__(self) -> None:
-        self.device_id      = str(hex(random.getrandbits(128)).lstrip("0x"))
-        self.url_login      = "https://profile.callofduty.com/cod/mapp/login"
-        self.url_device     = "https://profile.callofduty.com/cod/mapp/registerDevice"
-        self.apibase        = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
-        self.config         = json.loads(open("config.json","r").read())
-        self.mysql          = Database()
+        self.device_id : str    = str(hex(random.getrandbits(128)).lstrip("0x"))
+        self.url_login : str    = "https://profile.callofduty.com/cod/mapp/login"
+        self.url_device : str   = "https://profile.callofduty.com/cod/mapp/registerDevice"
+        self.apibase : str      = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
+        self.config : json      = json.loads(open("config.json","r").read())
+        self.mysql : Database   = Database()
+        
 
     """
     Fonction allowing to register any devices to get the access token
@@ -41,7 +43,7 @@ class GetAPI:
     """
     Login fonction, to get the access to the API and get the identities
     """
-    def login(self):
+    def login(self) -> Response:
 
         device = self.registerDevice()
 
@@ -69,7 +71,7 @@ class GetAPI:
     """
     Fonction to access to the identities
     """
-    def accessToIdentities(self):
+    def accessToIdentities(self) -> Response :
         login = self.login()
         if login.status_code == 200: 
             if json.loads(login.text)["success"]:
@@ -86,7 +88,7 @@ class GetAPI:
     """
     Fonction to access to the stats of user
     """
-    def accessToStats(self):
+    def accessToStats(self) -> Response:
         access = self.accessToIdentities()
         ident = access[0]
         login = access[1]
@@ -120,12 +122,14 @@ class GetAPI:
     """
     Fonction to get any data and save it on the database
     """
-    def run(self):
+    def run(self) -> str:
+        self.mysql.connect()
         api_data = self.accessToStats()
-
+        
         if api_data.status_code == 200:
             print("\033[1;32m[OK]\033[0m API connexion success....")
             data_json = json.loads(api_data.text)
+            
             self.mysql.insertRatio(data_json["data"]["summary"]["all"]["kdRatio"])
             return str(data_json["data"]["summary"]["all"]["kdRatio"])
 

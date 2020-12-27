@@ -2,19 +2,30 @@ import json
 import mysql.connector
 import datetime
 import time
+import sys
+
+from mysql.connector.connection import MySQLConnection
 
 class Database:
     def __init__(self) -> None:
-        data = json.loads(open("config.json","r").read())["database"]
-        self.mysql = mysql.connector.connect(
-            host = data["host"],
-            user = data["user"],
-            passwd = data["password"],
-            database = data["databasename"],
-            port = data["port"]
-        )
+        self.data : json                = json.loads(open("config.json","r").read())["database"]
+        self.mysql : MySQLConnection    = None
+        
+
+    def connect(self) -> None:
+        try:
+            self.mysql = mysql.connector.connect(
+                host = self.data["host"],
+                user = self.data["user"],
+                passwd = self.data["password"],
+                database = self.data["databasename"],
+                port = self.data["port"]
+            )   
+        except:
+            print("\033[1;31m[ERR]\033[0m Error with database connection, check your credential") 
+            sys.exit("Error database !")
     
-    def insertRatio(self, value : float):
+    def insertRatio(self, value : float) -> None:
         cursor = self.mysql.cursor()
         sql = "INSERT INTO RATIO (date,value) VALUES (%s,%s)"
         val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)

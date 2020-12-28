@@ -14,6 +14,12 @@ GetAPI class
 
 Class allowing to get the data of API of call of duty
 
+Example of use :
+
+myAPI : GetAPI = GetAPI()
+myAPI.login()
+myAPI.run()
+
 """
 class GetAPI:
     """
@@ -26,7 +32,7 @@ class GetAPI:
         self.apibase : str      = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
         self.config : json      = json.loads(open("config.json","r").read())
         self.mysql : Database   = Database()
-        self.access              = None
+        self.access : Response  = None
         
 
     """
@@ -44,7 +50,7 @@ class GetAPI:
     """
     Login fonction, to get the access to the API and get the identities
     """
-    def login(self) -> Response:
+    def login(self) -> None:
 
         device = self.registerDevice()
 

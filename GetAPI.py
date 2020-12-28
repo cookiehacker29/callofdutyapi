@@ -26,12 +26,13 @@ class GetAPI:
         self.apibase : str      = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
         self.config : json      = json.loads(open("config.json","r").read())
         self.mysql : Database   = Database()
+        self.access              = None
         
 
     """
     Fonction allowing to register any devices to get the access token
     """
-    def registerDevice(self):
+    def registerDevice(self) -> Response:
         mydata_device = {
             "deviceId" : self.device_id
         }
@@ -64,7 +65,7 @@ class GetAPI:
 
             login = post(url=self.url_login, json=mydata_login, headers=headers_login)
 
-            return login
+            self.access = login
 
         else: sys.exit("Device error : "+device.status_code)
 
@@ -72,14 +73,14 @@ class GetAPI:
     Fonction to access to the identities
     """
     def accessToIdentities(self) -> Response :
-        login = self.login()
+        login = self.access
         if login.status_code == 200: 
             if json.loads(login.text)["success"]:
                 print("\033[1;32m[OK]\033[0m Login success....")
 
                 ident = post(url=self.apibase+"identities/", cookies=login.cookies)
 
-                return (ident,login)
+                return ident
             else :
                 print("\033[1;31m[ERR]\033[0m Login not valid, check your credential") 
                 sys.exit(-1)
@@ -89,9 +90,8 @@ class GetAPI:
     Fonction to access to the stats of user
     """
     def accessToStats(self) -> Response:
-        access = self.accessToIdentities()
-        ident = access[0]
-        login = access[1]
+        ident = self.accessToIdentities()
+        login = self.access
 
         if ident.status_code == 200: 
             ident_data = json.loads(ident.text)
@@ -122,7 +122,7 @@ class GetAPI:
     """
     Fonction to get any data and save it on the database
     """
-    def run(self) -> str:
+    def run(self) -> None:
         self.mysql.connect()
         api_data = self.accessToStats()
         
@@ -130,6 +130,6 @@ class GetAPI:
             print("\033[1;32m[OK]\033[0m API connexion success....")
             data_json = json.loads(api_data.text)
             
-            self.mysql.insertRatio(data_json["data"]["summary"]["all"]["kdRatio"])
-            return str(data_json["data"]["summary"]["all"]["kdRatio"])
+            print(self.mysql.insertRatio(data_json["data"]["summary"]["all"]["kdRatio"]))
+            
 

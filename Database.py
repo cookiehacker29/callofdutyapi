@@ -25,9 +25,10 @@ class Database:
             print("\033[1;31m[ERR]\033[0m Error with database connection, check your credential") 
             sys.exit("Error database !")
     
-    def insertRatio(self, value : float) -> None:
+    def insertRatio(self, value : float) -> str:
         cursor = self.mysql.cursor()
         sql = "INSERT INTO RATIO (date,value) VALUES (%s,%s)"
         val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)
         cursor.execute(sql,val)
         self.mysql.commit()
+        return "["+val[0]+"] "+str(val[1])

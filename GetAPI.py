@@ -16,9 +16,9 @@ Class allowing to get the data of API of call of duty
 
 Example of use :
 
-myAPI : GetAPI = GetAPI()
-myAPI.login()
-myAPI.run()
+    myAPI : GetAPI = GetAPI()
+    myAPI.login()
+    myAPI.run()
 
 """
 class GetAPI:

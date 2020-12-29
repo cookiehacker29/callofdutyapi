@@ -3,12 +3,13 @@ import mysql.connector
 import datetime
 import time
 import sys
+import os
 
 from mysql.connector.connection import MySQLConnection
 
 class Database:
     def __init__(self) -> None:
-        self.data : json                = json.loads(open("config.json","r").read())["database"]
+        self.data : json                = json.loads(open(os.path.dirname(os.path.realpath(__file__))+"/config.json","r").read())["database"]
         self.mysql : MySQLConnection    = None
         
 

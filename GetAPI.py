@@ -1,4 +1,3 @@
-import requests
 from Database import Database
 
 from requests import *
@@ -6,6 +5,7 @@ import sys
 import random
 import json
 import urllib
+import os
 
 """
 =================
@@ -30,7 +30,7 @@ class GetAPI:
         self.url_login : str    = "https://profile.callofduty.com/cod/mapp/login"
         self.url_device : str   = "https://profile.callofduty.com/cod/mapp/registerDevice"
         self.apibase : str      = "https://my.callofduty.com/api/papi-client/crm/cod/v2/"
-        self.config : json      = json.loads(open("config.json","r").read())
+        self.config : json      = json.loads(open(os.path.dirname(os.path.realpath(__file__))+"/config.json","r").read())
         self.mysql : Database   = Database()
         self.access : Response  = None
         

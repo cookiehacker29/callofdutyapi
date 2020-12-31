@@ -1,2 +1,11 @@
 
-ratio : date[TIMESTAMP], value[FLOAT]
+RATIO : date[TIMESTAMP], value[FLOAT]
+HEADSHOTS : date[TIMESTAMP], value[FLOAT]
+    
+GAMETIME : date[TIMESTAMP], value[INTEGER]
+MATCHES : date[TIMESTAMP], value[INTEGER]
+    
+DEATHS : date[TIMESTAMP], value[INTEGER]
+KILLS : date[TIMESTAMP], value[INTEGER]
+    
+WALLBANGS : date[TIMESTAMP], value[INTEGER]

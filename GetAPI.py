@@ -137,5 +137,12 @@ class GetAPI:
             data_json = json.loads(api_data.text)
             
             print(self.mysql.insertRatio(data_json["data"]["summary"]["all"]["kdRatio"]))
+            print(self.mysql.insertHeadshots(data_json["data"]["summary"]["all"]["headshotPercentage"]))
+            print(self.mysql.insertGameTime(data_json["data"]["summary"]["all"]["timePlayed"]))
+            print(self.mysql.insertMatches(data_json["data"]["summary"]["all"]["matchesPlayed"]))
+            print(self.mysql.insertDeaths(data_json["data"]["summary"]["all"]["deaths"]))
+            print(self.mysql.insertKills(data_json["data"]["summary"]["all"]["kills"]))
+            print(self.mysql.insertWallBangs(data_json["data"]["summary"]["all"]["wallBangs"]))
+
             
 

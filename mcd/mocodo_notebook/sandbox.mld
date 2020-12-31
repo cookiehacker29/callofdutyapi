@@ -1,4 +1,25 @@
 %%mocodo
 :
-ratio: date, value
+RATIO: date, value
 :
+HEADSHOTS: date, value
+:
+
+
+:
+GAMETIME: date, value
+:
+MATCHES: date, value
+:
+
+
+:
+DEATHS: date, value
+:
+KILLS: date, value
+:
+
+
+:
+WALLBANGS: date, value
+:::

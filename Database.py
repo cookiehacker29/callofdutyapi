@@ -51,3 +51,51 @@ class Database:
         cursor.execute(sql,val)
         self.mysql.commit()
         return "["+val[0]+"][RATIO] "+str(val[1])
+
+    def insertHeadshots(self, value : float) -> str:
+        cursor = self.mysql.cursor()
+        sql = "INSERT INTO HEADSHOTS (date,value) VALUES (%s,%s)"
+        val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)
+        cursor.execute(sql,val)
+        self.mysql.commit()
+        return "["+val[0]+"][HEADSHOTS] "+str(val[1])
+
+    def insertGameTime(self, value : int) -> str:
+        cursor = self.mysql.cursor()
+        sql = "INSERT INTO GAMETIME (date,value) VALUES (%s,%s)"
+        val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)
+        cursor.execute(sql,val)
+        self.mysql.commit()
+        return "["+val[0]+"][GAMETIME] "+str(val[1])
+
+    def insertMatches(self, value : int) -> str:
+        cursor = self.mysql.cursor()
+        sql = "INSERT INTO MATCHES (date,value) VALUES (%s,%s)"
+        val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)
+        cursor.execute(sql,val)
+        self.mysql.commit()
+        return "["+val[0]+"][MATCHES] "+str(val[1])
+
+    def insertDeaths(self, value : int) -> str:
+        cursor = self.mysql.cursor()
+        sql = "INSERT INTO DEATHS (date,value) VALUES (%s,%s)"
+        val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)
+        cursor.execute(sql,val)
+        self.mysql.commit()
+        return "["+val[0]+"][DEATHS] "+str(val[1])
+
+    def insertKills(self, value : int) -> str:
+        cursor = self.mysql.cursor()
+        sql = "INSERT INTO KILLS (date,value) VALUES (%s,%s)"
+        val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)
+        cursor.execute(sql,val)
+        self.mysql.commit()
+        return "["+val[0]+"][KILLS] "+str(val[1])
+
+    def insertWallBangs(self, value : int) -> str:
+        cursor = self.mysql.cursor()
+        sql = "INSERT INTO WALLBANGS (date,value) VALUES (%s,%s)"
+        val = (datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'),value)
+        cursor.execute(sql,val)
+        self.mysql.commit()
+        return "["+val[0]+"][WALLBANGS] "+str(val[1])
